@@ -22,12 +22,17 @@
   cursor: move;
 }
 
+@font-face {
+    font-family: Carlito;
+    src: url(../assets/iconfont/Carlito-Regular.ttf);
+  }  
+
 .luckysheet {
     position: absolute;
     /*width: 100%;
     height: 100%;*/
     font-size: 12px;
-    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    font-family: "Carlito","Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
     border: 1px solid #e5e5e5;
     background: #fff;
 }

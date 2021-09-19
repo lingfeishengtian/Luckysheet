@@ -201,6 +201,10 @@ function ABCatNum(a) {
 
 //列下标  数字转字母
 function chatatABC(n) {
+    let alph = ['AC', '1NR', '1AR', '2NR', '2AR']
+    if(n < alph.length){
+        return alph[n]
+    }
     // let wordlen = columeHeader_word.length;
 
     // if (index < wordlen) {

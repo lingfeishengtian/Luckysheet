@@ -29,7 +29,7 @@ const Store = {
     statisticBarHeight: 23,
     luckysheetTableContentHW: [0, 0], 
 
-    defaultcollen: 73,
+    defaultcollen: 200,
     defaultrowlen: 19,
 
     jfcountfuncTimeout: null, 
