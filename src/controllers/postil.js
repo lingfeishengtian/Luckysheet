@@ -227,15 +227,9 @@ const luckysheetPostil = {
 
         let size = _this.getArrowCanvasSize(fromX, fromY, toX, toY);
 
-        let commentDivs = '';
-        let valueLines = value.split('\n');
-        for (let line of valueLines) {
-            commentDivs += '<div>' + _this.htmlEscape(line) + '</div>';
-        }
-
         let html =  '<div id="luckysheet-postil-overshow">' +
                         '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
-                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ commentDivs +'</div>' +
+                        '<div style="width:'+ (width - 12) +'px;min-height:'+ (height - 12) +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ fromX +'px;top:'+ fromY +'px;z-index:100;">'+ _this.htmlEscape(value) +'</div>' +
                     '</div>';
 
         $(html).appendTo($("#luckysheet-cell-main"));
@@ -377,12 +371,6 @@ const luckysheetPostil = {
 
             let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
-            let commentDivs = '';
-            let valueLines = value.split('\n');
-            for (let line of valueLines) {
-                commentDivs += '<div>' + _this.htmlEscape(line) + '</div>';
-            }
-
             let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show">' +
                             '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                             '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
@@ -404,7 +392,7 @@ const luckysheetPostil = {
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                     '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        commentDivs +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -555,12 +543,6 @@ const luckysheetPostil = {
 
             let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
-            let commentDivs = '';
-            let valueLines = value.split('\n');
-            for (let line of valueLines) {
-                commentDivs += '<div>' + _this.htmlEscape(line) + '</div>';
-            }
-
             let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show luckysheet-postil-show-active">' +
                             '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                             '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
@@ -582,7 +564,7 @@ const luckysheetPostil = {
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                     '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        commentDivs +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -682,11 +664,7 @@ const luckysheetPostil = {
             }
 
             let size = _this.getArrowCanvasSize(left, top, toX, toY);
-            let commentDivs = '';
-            let valueLines = value.split('\n');
-            for (let line of valueLines) {
-                commentDivs += '<div>' + _this.htmlEscape(line) + '</div>';
-            }
+
             let html =  '<div id="luckysheet-postil-show_'+ r +'_'+ c +'" class="luckysheet-postil-show">' +
                             '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                             '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
@@ -708,7 +686,7 @@ const luckysheetPostil = {
                                 '</div>' +
                                 '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                     '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                        commentDivs +
+                                        _this.htmlEscape(value) +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -811,12 +789,6 @@ const luckysheetPostil = {
 
                         let size = _this.getArrowCanvasSize(left, top, toX, toY);
 
-                        let commentDivs = '';
-                        let valueLines = value.split('\n');
-                        for (let line of valueLines) {
-                            commentDivs += '<div>' + _this.htmlEscape(line) + '</div>';
-                        }
-
                         let html =  '<div id="luckysheet-postil-show_'+ rowIndex +'_'+ colIndex +'" class="luckysheet-postil-show">' +
                                         '<canvas class="arrowCanvas" width="'+ size[2] +'" height="'+ size[3] +'" style="position:absolute;left:'+ size[0] +'px;top:'+ size[1] +'px;z-index:100;pointer-events:none;"></canvas>' +
                                         '<div class="luckysheet-postil-show-main" style="width:'+ width +'px;height:'+ height +'px;color:#000;padding:5px;border:1px solid #000;background-color:rgb(255,255,225);position:absolute;left:'+ left +'px;top:'+ top +'px;box-sizing:border-box;z-index:100;">' +
@@ -838,7 +810,7 @@ const luckysheetPostil = {
                                             '</div>' +
                                             '<div style="width:100%;height:100%;overflow:hidden;">' + 
                                                 '<div class="formulaInputFocus" style="width:'+ (width - 12) +'px;height:'+ (height - 12) +'px;line-height:20px;box-sizing:border-box;text-align: center;;word-break:break-all;" spellcheck="false" contenteditable="true">' +
-                                                    commentDivs +
+                                                    _this.htmlEscape(value) +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>' +
@@ -868,8 +840,8 @@ const luckysheetPostil = {
             let r = id.split("luckysheet-postil-show_")[1].split("_")[0];
             let c = id.split("luckysheet-postil-show_")[1].split("_")[1];
 
-            // interpret <div> as new line
-            let value = $("#" + id).find(".formulaInputFocus").html().replaceAll('<div>', '\n').replaceAll(/<(.*)>.*?|<(.*) \/>/g, '').trim();
+            let value = $("#" + id).find(".formulaInputFocus").text();
+
             // Hook function
             if(!method.createHookFunction('commentUpdateBefore',r,c,value)){
                 return;

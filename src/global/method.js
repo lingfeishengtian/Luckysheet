@@ -326,7 +326,7 @@ const method = {
                 luckysheetextendData(dataset["row"], newData);
 
                 setTimeout(function(){
-                    Store.loadingObj.close()
+                    $("#luckysheetloadingdata").fadeOut().remove();
                 }, 500);
 
                 if(func && typeof(func)=="function"){ 
@@ -359,7 +359,7 @@ const method = {
             let data = sheetmanage.buildGridData(file);
 
             setTimeout(function(){
-                Store.loadingObj.close()
+                $("#luckysheetloadingdata").fadeOut().remove();
             }, 500);
 
             file["data"] = data;

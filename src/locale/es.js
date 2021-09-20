@@ -8918,9 +8918,6 @@ export default {
         update:"Actualizar",
         delete:"Eliminar",
         insert:"Insertar",
-        prevPage: "Previous",
-        nextPage: "Next",
-        total: "total:"
     },
     paint:{
         start: 'Inicio clonar formato',
@@ -8944,7 +8941,7 @@ export default {
         detailSave: 'Cache local restaurado',
         row: '',
         column: '',
-        loading:"Cargando...",
+        loading:"Cargando",
 
         copy:"Copiar",
         return:"Salir",
@@ -9716,7 +9713,6 @@ export default {
         selectCellRange: 'Haz clic para seleccionar un rango de celdas',
         selectCellRange2: 'Selecciona un rango de celdas',
         verificationCondition: 'Condición de verificación',
-        allowMultiSelect: "Permitir selección múltiple",
         dropdown: 'lista desplegable',
         checkbox: 'Casilla de verificación',
         number: 'Número',

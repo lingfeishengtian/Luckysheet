@@ -1930,9 +1930,9 @@ Use note:
 		+ `"flipLeftRight"`: flip left and right
 		+ `"flipClockwise"`: rotate clockwise
 		+ `"flipCounterClockwise"`: rotate counterclockwise
-		+ `"transpose"`: Transpose
-		+ `"deleteZeroByRow"`: delete 0 values at both ends by row
-		+ `"deleteZeroByColumn"`: delete zero values at both ends by column
+		+ `"Transpose"`: Transpose
+		+ `"DeleteZeroByRow"`: delete 0 values at both ends by row
+		+ `"DeleteZeroByColumn"`: delete zero values at both ends by column
 		+ `"removeDuplicateByRow"`: delete duplicate values by row
 		+ `"removeDuplicateByColumn"`: remove duplicate values by column
 		+ `"newMatrix"`: Produce a new matrix
@@ -2076,6 +2076,9 @@ Use note:
 
 ### getConfig([setting])
 
+[todo]
+
+
 - **Parameter**：
 
 	- {PlainObject} [setting]: optional parameters
@@ -2089,6 +2092,9 @@ Use note:
 
 ### setConfig([setting])
 
+[todo]
+
+
 - **Parameter**：
 
 	- {PlainObject} [setting]: optional parameters
@@ -2098,19 +2104,6 @@ Use note:
 - **Explanation**：
 
 	Quickly set the current worksheet config configuration
-
-------------
-### updataSheet([setting])
-
-- **参数**：
-
-    - {PlainObject} [setting]: optional parameters
-    	+ {Array} [data]: Worksheet Configuration
-    	+ {Function} [success]: callback function for the end of the operation
-	
-- **说明**：
-
-	Update the corresponding sheet according to the set sheet configuration
 
 ------------
 
@@ -2600,19 +2593,6 @@ Use note:
 - **Explanation**：
 	
 	Refreshes the top status bar status of the specified cell.
-
-------------
-
-### checkTheStatusOfTheSelectedCells(type,status)
-
-- **Parameter**：
-
-	- {String} type: type
-	- {String} status: Target state value
-
-- **Explanation**：
-	
-	Check whether the status of all specified types of cells in the selection meets the conditions (mainly bold, italics, strikeouts, underscores, etc.).
 
 ------------
 

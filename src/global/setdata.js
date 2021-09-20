@@ -23,10 +23,11 @@ function setcellvalue(r, c, d, v) {
         else{
             if(v.f != null){
                 cell.f = v.f;
-            }else if(cell.hasOwnProperty('f')){
-                delete cell.f;
             }
-
+            // else{
+            //     delete cell.f;
+            // }
+    
             if(v.spl != null){
                 cell.spl = v.spl;
             }
@@ -35,7 +36,7 @@ function setcellvalue(r, c, d, v) {
                 cell.ct = v.ct;
             }
         }
-
+        
 
         if(getObjType(v.v) == "object"){
             vupdate = v.v.v;
@@ -67,37 +68,30 @@ function setcellvalue(r, c, d, v) {
     if(isRealNull(cell) || (getObjType(cell) === 'string' || getObjType(cell) === 'number') && cell === v){
         cell = {};
     }
-
-    let vupdateStr = vupdate.toString();
-
-    if(vupdateStr.substr(0, 1) == "'"){
-        cell.m = vupdateStr.substr(1);
+    
+    if(vupdate.toString().substr(0, 1) == "'"){
+        cell.m = vupdate.toString().substr(1);
         cell.ct = { "fa": "@", "t": "s" };
-        cell.v = vupdateStr.substr(1);
+        cell.v = vupdate.toString().substr(1);
         cell.qp = 1;
     }
     else if(cell.qp == 1){
-        cell.m = vupdateStr;
+        cell.m = vupdate.toString();
         cell.ct = { "fa": "@", "t": "s" };
-        cell.v = vupdateStr;
+        cell.v = vupdate.toString();
     }
-    else if(vupdateStr.toUpperCase() === "TRUE"){
+    else if(vupdate.toString().toUpperCase() === "TRUE"){
         cell.m = "TRUE";
         cell.ct = { "fa": "General", "t": "b" };
         cell.v = true;
     }
-    else if(vupdateStr.toUpperCase() === "FALSE"){
+    else if(vupdate.toString().toUpperCase() === "FALSE"){
         cell.m = "FALSE";
         cell.ct = { "fa": "General", "t": "b" };
         cell.v = false;
     }
-    else if(vupdateStr.substr(-1) === "%" && isRealNum(vupdateStr.substring(0, vupdateStr.length-1))){
-            cell.ct = {fa: "0%", t: "n"};
-            cell.v = vupdateStr.substring(0, vupdateStr.length-1) / 100;
-            cell.m = vupdate;
-    }
     else if(valueIsError(vupdate)){
-        cell.m = vupdateStr;
+        cell.m = vupdate.toString();
         // cell.ct = { "fa": "General", "t": "e" };
         if(cell.ct!=null){
             cell.ct.t = "e";
@@ -136,7 +130,7 @@ function setcellvalue(r, c, d, v) {
                     let v_p = Math.round(cell.v * 1000000000) / 1000000000;
                     if(cell.ct==null){
                         let mask = genarate(v_p);
-                        cell.m = mask[0].toString();
+                        cell.m = mask[0].toString(); 
                     }
                     else{
                         let mask = update(cell.ct.fa, v_p);
@@ -148,7 +142,7 @@ function setcellvalue(r, c, d, v) {
             }
         }
         else if(cell.ct != null && cell.ct.fa == "@"){
-            cell.m = vupdateStr;
+            cell.m = vupdate.toString();
             cell.v = vupdate;
         }
         else if(cell.ct != null && cell.ct.fa != null && cell.ct.fa != "General"){
@@ -172,15 +166,11 @@ function setcellvalue(r, c, d, v) {
         }
         else{
             if(isRealNum(vupdate) && !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(vupdate)){
+                vupdate = parseFloat(vupdate);
 
-                if(typeof vupdate === "string"){
-                    let flag = vupdate.split("").every(ele=>ele == "0" || ele == ".");
-                    if(flag){
-                        vupdate = parseFloat(vupdate);
-                    }
-                }
-                cell.v = vupdate;   /* 备注：如果使用parseFloat，1.1111111111111111会转换为1.1111111111111112 ? */
+                cell.v = parseFloat(vupdate);
                 cell.ct = { "fa": "General", "t": "n" };
+
                 if(cell.v == Infinity || cell.v == -Infinity){
                     cell.m = cell.v.toString();
                 }
@@ -204,7 +194,7 @@ function setcellvalue(r, c, d, v) {
         if(cell.ct != null && /^(w|W)((0?)|(0\.0+))$/.test(cell.ct.fa) == false && cell.ct.t == "n" && cell.v != null && parseInt(cell.v).toString().length > 4){
             let autoFormatw = luckysheetConfigsetting.autoFormatw.toString().toUpperCase();
             let accuracy = luckysheetConfigsetting.accuracy;
-
+           
             let sfmt = setAccuracy(autoFormatw, accuracy);
 
             if(sfmt != "General") {
@@ -217,18 +207,18 @@ function setcellvalue(r, c, d, v) {
     d[r][c] = cell;
 }
 
-//new runze 根据亿万格式autoFormatw和精确度accuracy 转换成 w/w0/w0.00 or 0/0.0格式
+//new runze 根据亿万格式autoFormatw和精确度accuracy 转换成 w/w0/w0.00 or 0/0.0格式 
 function setAccuracy(autoFormatw, accuracy) {
     let acc = "0.";
     let fmt;
-
+    
     if(autoFormatw == "TRUE"){
         if(accuracy == undefined){
             return "w";
         }
         else{
             let alength = parseInt(accuracy);
-
+            
             if(alength == 0){
                 return "w0";
             }
@@ -249,7 +239,7 @@ function setAccuracy(autoFormatw, accuracy) {
         }
         else{
             let alength = parseInt(accuracy);
-
+            
             if(alength == 0){
                 return "0";
             }
@@ -260,11 +250,11 @@ function setAccuracy(autoFormatw, accuracy) {
 
                 fmt = acc;
             }
-
+            
         }
     }
 
-    return fmt.toString();
+    return fmt.toString();     
 }
 
 export {

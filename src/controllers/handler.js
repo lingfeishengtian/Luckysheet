@@ -503,11 +503,6 @@ export default function luckysheetHandler() {
                     //按住ctrl 选择选区时  先处理上一个选区
                     let vText = $("#luckysheet-rich-text-editor").text();
                     
-                    if(vText[vText.length -1 ] === ")"){
-                        vText = vText.substr(0,vText.length - 1); //先删除最后侧的圆括号) 
-                    }
-                    
-
                     if(vText.length > 0){
                         let lastWord = vText.substr(vText.length-1,1);
                         if(lastWord!="," && lastWord!="=" && lastWord!="("){
@@ -526,9 +521,7 @@ export default function luckysheetHandler() {
                             formula.functionRangeIndex = textRange;
                         }
 
-                        /* 在显示前重新 + 右侧的圆括号) */
-
-                        $("#luckysheet-rich-text-editor").html(vText + ")");
+                        $("#luckysheet-rich-text-editor").html(vText);
 
                         formula.canceFunctionrangeSelected();
                         formula.createRangeHightlight();
@@ -538,7 +531,7 @@ export default function luckysheetHandler() {
                     formula.rangedrag_column_start = false;
                     formula.rangedrag_row_start = false;
 
-                    $("#luckysheet-functionbox-cell").html(vText + ")");
+                    $("#luckysheet-functionbox-cell").html(vText);
                     formula.rangeHightlightselected($("#luckysheet-rich-text-editor"));
 
                     //再进行 选区的选择
@@ -3910,11 +3903,6 @@ export default function luckysheetHandler() {
                 col_e = Store.visibledatacolumn.length - 1;
             }
 
-            // Custom added
-            if(last["row"][0] == 0 || last["row"][1] == 0 || row_s == 0 || row_e == 0){
-                return
-            }
-
             //替换的位置包含部分单元格
             if (hasPartMC(cfg, row_s, row_e, col_s, col_e)) {
                 if (isEditMode()) {
@@ -4098,6 +4086,8 @@ export default function luckysheetHandler() {
 
         //选区下拉
         if (Store.luckysheet_cell_selected_extend) {
+
+            
             Store.luckysheet_cell_selected_extend = false;
             $("#luckysheet-cell-selected-extend").hide();
 
@@ -4132,7 +4122,7 @@ export default function luckysheetHandler() {
             let col_s = last["column"][0], col_e = last["column"][1];
 
             if (row_s < 0 || y < 0) {
-                row_s = 1;
+                row_s = 0;
                 row_e = last["row"][1] - last["row"][0];
             }
 
@@ -4274,7 +4264,6 @@ export default function luckysheetHandler() {
                 }
             }
 
-
             if(row_s == 0 || row_e == 0) {
             }else{
                 last["row"] = [row_s, row_e];
@@ -4282,7 +4271,10 @@ export default function luckysheetHandler() {
                 luckysheetDropCell.update();
                 luckysheetDropCell.createIcon();
             }
-            
+
+            luckysheetDropCell.update();
+            luckysheetDropCell.createIcon();
+
             $("#luckysheet-cell-selected-move").hide();
 
             $("#luckysheet-sheettable").css("cursor", "default");
@@ -5022,7 +5014,7 @@ export default function luckysheetHandler() {
 
         //点击功能栏时 如果是单元格编辑模式 则退出编辑模式 
         if ($(event.target).closest("#luckysheet-wa-editor").length > 0 && parseInt($("#luckysheet-input-box").css("top")) > 0) {
-            
+            console.log(event);
             formula.updatecell(Store.luckysheetCellUpdate[0], Store.luckysheetCellUpdate[1]);
             luckysheetMoveHighlightCell("down", 0, "rangeOfSelect");
         }
@@ -5098,10 +5090,13 @@ export default function luckysheetHandler() {
         luckysheetContainerFocus();
     });
 
+
+
     //左上角返回按钮
     $("#luckysheet_info_detail_title").click(function () {
         window.open(luckysheetConfigsetting.myFolderUrl, "_self");
     });
+
 
     //图表选区mousedown
     $("#luckysheet-chart-rangeShow").on("mousedown.chartRangeShowMove", ".luckysheet-chart-rangeShow-move", function (event) {
@@ -5292,7 +5287,7 @@ export default function luckysheetHandler() {
                 let reg = new RegExp('<tr.*?>(.*?)</tr>', 'g');
                 let reg2 = new RegExp('<td.*?>(.*?)</td>', 'g');
 
-                let regArr = txtdata.match(reg) || [];
+                let regArr = txtdata.match(reg);
 
                 for (let i = 0; i < regArr.length; i++) {
                     let cpRowArr = [];
@@ -5332,7 +5327,7 @@ export default function luckysheetHandler() {
 
                     for(let c = copy_c1; c <= copy_c2; c++){
                         let cell = d[r][c];
-                        let isInlineStr = false
+
                         if(cell != null && cell.mc != null && cell.mc.rs == null){
                             continue;
                         }
@@ -5350,27 +5345,13 @@ export default function luckysheetHandler() {
                             v = "";
                         }
 
-                        
-                        if(v == null && d[r][c] && d[r][c].ct && d[r][c].ct.t == 'inlineStr') {
-                          v = d[r][c].ct.s.map(val=>val.v).join('');
-                          isInlineStr = true;
-                        }
                         if(v == null){
-                          v = "";
+                            v = "";
                         }
-                        if(isInlineStr){
-                          const cpData = $(cpDataArr[r - copy_r1][c - copy_c1]).text().replace(/\s|\n/g,' ')
-                          const storeValue = v.replace(/\n/g,'').replace(/\s/g,' ')
-                          if(cpData != storeValue){
+
+                        if(cpDataArr[r - copy_r1][c - copy_c1] != v){
                             isEqual = false;
                             break;
-                          }
-                        }
-                        else{
-                          if(cpDataArr[r - copy_r1][c - copy_c1] != v){
-                            isEqual = false;
-                            break;
-                          }
                         }
                     }
                 }
@@ -5425,6 +5406,7 @@ export default function luckysheetHandler() {
                             let $td = $(this);
                             let cell = {};
                             let txt = $td.text();
+
                             if ($.trim(txt).length == 0) {
                                 cell.v = null;
                                 cell.m = "";
@@ -5472,7 +5454,8 @@ export default function luckysheetHandler() {
                                     break;
                                 }
                             }
-                            let fs = Math.round(parseInt($td.css("font-size")) * 72 / 96);
+
+                            let fs = Math.floor(parseInt($td.css("font-size")) * 72 / 96) + 1;
                             cell.fs = fs;
 
                             let fc = $td.css("color");
@@ -5636,7 +5619,6 @@ export default function luckysheetHandler() {
             }
         }
         else if($(e.target).closest('#luckysheet-rich-text-editor').length > 0) {
-            
             // 阻止默认粘贴
             e.preventDefault();
 
@@ -5645,6 +5627,7 @@ export default function luckysheetHandler() {
                 clipboardData = e.originalEvent.clipboardData;
             }
             let text =  clipboardData.getData('text/plain');
+            
             // 插入
             document.execCommand("insertText", false, text);
         }
@@ -5702,12 +5685,6 @@ export default function luckysheetHandler() {
     }).mousedown(function (e) {
         e.stopPropagation();
     });
-
-    $('#luckysheet-wa-editor,#luckysheet-icon-morebtn-div,.luckysheet-toolbar-button').click(function(e){
-        if(this.id != 'luckysheet-icon-paintformat' && menuButton.luckysheetPaintModelOn){
-            menuButton.cancelPaintModel();
-        }
-    })
 }
 
 // 协同编辑其他用户不在操作的时候，且已经展示了用户名10秒，则用户名框隐藏

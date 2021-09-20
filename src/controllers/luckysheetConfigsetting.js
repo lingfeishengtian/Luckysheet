@@ -22,13 +22,12 @@ const luckysheetConfigsetting = {
     enableAddBackTop: true,
     enablePage: true,
     pageInfo: null,
-
-
+    
+    
     editMode: false,
     beforeCreateDom: null,
     workbookCreateBefore: null,
     workbookCreateAfter: null,
-    remoteFunction: null,
     fireMousedown: null,
     plugins:[],
     forceCalculation:false,//强制刷新公式，公式较多会有性能问题，慎用

@@ -532,12 +532,12 @@ export function checkstatusByCell(cell, a){
     }
     else if(a == "tb"){
         if(foucsStatus == null){
-            foucsStatus = "0";
+            foucsStatus = "2";
         }
         else{
             foucsStatus = foucsStatus[a];
             if(foucsStatus == null){
-                foucsStatus = "0";
+                foucsStatus = "2";
             }
         }
     }

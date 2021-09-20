@@ -1169,16 +1169,6 @@ The hook functions are uniformly configured under ʻoptions.hook`, and configura
     
 ------------
 
-## Cooperative
-
-### cooperativeMessage
-
-- Type：Function
-- Default：null
-- Usage：Receive the cooperation message, secondary development. Expanding cooperative message instruction set
-- Params:
-	- {Object} : Receives the entire collaboration message body object sent by the server
-
 ## Image
 
 ### imageInsertBefore

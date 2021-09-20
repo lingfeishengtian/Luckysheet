@@ -5,7 +5,6 @@ import tooltip from '../global/tooltip';
 import { rowlenByRange } from '../global/getRowlen';
 import { selectHightlightShow } from './select';
 import { luckysheetMoveEndCell } from './sheetMove';
-import { luckysheetlodingHTML } from '../controllers/constant';
 import server from './server';
 import locale from '../locale/locale';
 import Store from '../store';
@@ -481,8 +480,7 @@ function initialFilterHandler(){
             orderbydatafiler(st_r, st_c, ed_r, ed_c, cindex, false);
         });
 
-        const loadingObj = luckysheetlodingHTML("#luckysheet-filter-byvalue-select",{text:locale_filter.filiterMoreDataTip});
-        $("#luckysheet-filter-byvalue-select").empty().append(loadingObj.el);
+        $("#luckysheet-filter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size:14px;"><div class="luckysheetLoaderGif"></div><span>'+locale_filter.filiterMoreDataTip+'</span></div>');
 
         let rowhiddenother = {}; //其它筛选列的隐藏行
         $("#luckysheet-filter-options-sheet" + Store.currentSheetIndex + " .luckysheet-filter-options").not(this).each(function () {
@@ -729,13 +727,7 @@ function initialFilterHandler(){
                 }
             }
 
-            // 适配小屏设备
-            let containerH = winH - toffset.top - 350
-            if (containerH < 0) containerH = 100
-            //$("#luckysheet-filter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
-
-            $("#luckysheet-filter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + containerH + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
-            loadingObj.close();
+            $("#luckysheet-filter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='min-height: 100px; max-height: " + (winH - toffset.top - 350) + "px; overflow-y: auto; overflow-x: hidden;'><table cellspacing='0' style='width:100%;' class='luckysheet-mousedown-cancel'>" + item.join("") + "</table></div>");
         }, 1);
 
         showrightclickmenu($menu, toffset.left, toffset.top + 20);

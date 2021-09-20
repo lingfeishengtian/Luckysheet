@@ -262,6 +262,7 @@ const luckysheetFreezen = {
             let column_px = Store.visibledatacolumn[column], freezen_px = Store.visibledatacolumn[freezen_colindex];
 
             if (column_px <= freezen_px+top) {
+                console.log(1111);
                 setTimeout(function () { $("#luckysheet-scrollbar-x").scrollLeft(0); }, 100);
             }
         }

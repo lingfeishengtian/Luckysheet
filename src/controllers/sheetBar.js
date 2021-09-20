@@ -2,9 +2,9 @@
 import sheetmanage from './sheetmanage';
 import server from './server';
 import { sheetselectlistitemHTML, sheetselectlistHTML, keycode } from './constant';
-import {
+import { 
     replaceHtml,
-    mouseclickposition,
+    mouseclickposition, 
 } from '../utils/util';
 import { getSheetIndex } from '../methods/get';
 import { isEditMode } from '../global/validate';
@@ -67,10 +67,10 @@ function showsheetconfigmenu() {
                     let redo = {};
                     redo["type"] = "sheetColor";
                     redo["sheetIndex"] = Store.currentSheetIndex;
-
+                    
                     redo["oldcolor"] = oldcolor;
                     redo["color"] = color;
-
+                    
                     Store.jfundo.length = 0;
                     Store.jfredo.push(redo);
                 }
@@ -92,7 +92,7 @@ function showsheetconfigmenu() {
                 let redo = {};
                 redo["type"] = "sheetColor";
                 redo["sheetIndex"] = Store.currentSheetIndex;
-
+                
                 redo["oldcolor"] = oldcolor;
                 redo["color"] = null;
 
@@ -162,7 +162,6 @@ let luckysheetsheetrightclick = function ($t, $cur, e) {
 export function initialSheetBar(){
     const _locale = locale();
     const locale_sheetconfig = _locale.sheetconfig;
-    isInitialSheetConfig = false
 
     $("#luckysheet-sheet-area").on("mousedown", "div.luckysheet-sheets-item", function (e) {
         if(isEditMode()){
@@ -184,7 +183,7 @@ export function initialSheetBar(){
                 Store.luckysheet_sheet_move_status = true;
                 Store.luckysheet_sheet_move_data = {};
                 Store.luckysheet_sheet_move_data.widthlist = [];
-
+                
                 $("#luckysheet-sheet-area div.luckysheet-sheets-item:visible").each(function (i) {
                     if (i == 0) {
                         Store.luckysheet_sheet_move_data.widthlist.push(parseInt($(this).outerWidth()));
@@ -206,12 +205,12 @@ export function initialSheetBar(){
             }, 200);
         }
     }).on("click", "div.luckysheet-sheets-item", function (e) {
-
+    
         if(isEditMode()){
             // alert("非编辑模式下不允许该操作！");
             return;
         }
-
+        
         let $t = $(this), $cur = $(e.target);
         luckysheetsheetrightclick($t, $cur, e);
         server.keepHighLightBox()
@@ -243,7 +242,7 @@ export function initialSheetBar(){
         if(Store.limitSheetNameLength === false){
             return
         }
-
+        
         let maxLength = Store.defaultSheetNameMaxLength;
         if(maxLength  === 0){
             return
@@ -251,29 +250,28 @@ export function initialSheetBar(){
 
         setTimeout( ()=> {
             if (compositionFlag) {
-
+               
                 if ($(this).text().length >= maxLength) {  /* 检查：值是否越界 */
                     setTimeout(() => {
                         $(this).text($(this).text().substring(0, maxLength));
 
-                        let range = window.getSelection();
-                        range.selectAllChildren(this);
+                        let range = window.getSelection();  
+                        range.selectAllChildren(this); 
                         range.collapseToEnd();
                     }, 0);
-                 }
+                 } 
             }
         }, 0);
     });
-
+        
     $("#luckysheet-sheet-area").on("blur", "span.luckysheet-sheets-item-name", function (e) {
         if(Store.allowEdit===false){
             return;
         }
 
         if(0 === $(this).text().length){
-
-            tooltip.info("", locale_sheetconfig.sheetNamecannotIsEmptyError);
-
+           
+            alert(locale_sheetconfig.sheetNamecannotIsEmptyError);
             setTimeout(()=>{
                 $(this).text(oldSheetFileName);
                 luckysheetsheetnameeditor($(this));
@@ -318,7 +316,7 @@ export function initialSheetBar(){
             let redo = {};
             redo["type"] = "sheetName";
             redo["sheetIndex"] = Store.currentSheetIndex;
-
+            
             redo["oldtxt"] = oldtxt;
             redo["txt"] = txt;
 
@@ -335,7 +333,7 @@ export function initialSheetBar(){
         let $t = $(this);
         if (kcode == keycode.ENTER) {
             let index = getSheetIndex(Store.currentSheetIndex);
-            oldSheetFileName = Store.luckysheetfile[index].name || oldSheetFileName;
+            oldSheetFileName = Store.luckysheetfile[index].name || oldSheetFileName; 
             Store.luckysheetfile[index].name = $t.text();
             $t.attr("contenteditable", "false");
         }
@@ -390,7 +388,7 @@ export function initialSheetBar(){
         tooltip.confirm(locale_sheetconfig.confirmDelete+"【" + Store.luckysheetfile[index].name + "】？", "<span style='color:#9e9e9e;font-size:12px;'>"+locale_sheetconfig.redoDelete+"</span>", function () {
             sheetmanage.deleteSheet(luckysheetcurrentSheetitem.data("index"));
         }, null);
-
+        
         $("#luckysheet-input-box").removeAttr("style");
     });
 
@@ -431,7 +429,7 @@ export function initialSheetBar(){
         let $c = $("#luckysheet-sheet-container-c");
         sheetscrollstart = $c.scrollLeft();
         sheetscrollend = $c.scrollLeft() - sheetscrollstep;
-
+        
         if (sheetscrollend <= 0) {
             $("#luckysheet-sheet-container .docs-sheet-fade-left").hide();
         }
@@ -456,7 +454,7 @@ export function initialSheetBar(){
             $("#luckysheet-sheet-container .docs-sheet-fade-right").hide();
         }
         $("#luckysheet-sheet-container .docs-sheet-fade-left").show();
-
+        
         clearInterval(sheetscrollani);
         sheetscrollani = setInterval(function () {
             sheetscrollstart += 4;

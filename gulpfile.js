@@ -32,13 +32,6 @@ const babel = require('@rollup/plugin-babel').default;
 // Distinguish development and production environments
 const production = process.env.NODE_ENV === 'production' ? true : false;
 
-const pkg = require('./package.json');
-const banner = `/*! @preserve
- * ${pkg.name}
- * version: ${pkg.version}
- * https://github.com/mengshukeji/Luckysheet
- */`;
-
 // uglify js Compression configuration https://github.com/mishoo/UglifyJS#minify-options
 const uglifyOptions = {
     compress: {
@@ -93,12 +86,11 @@ const paths = {
     plugins: ['src/plugins/*.css'],
     css:['src/css/*.css','node_modules/flatpickr/dist/themes/light.css'],
     pluginsJs:[
-        // 'node_modules/jquery/dist/jquery.min.js',
-        'node_modules/uuid/dist/umd/uuid.min.js',
+        'node_modules/jquery/dist/jquery.min.js',
         'src/plugins/js/clipboard.min.js',
-        // 'src/plugins/js/spectrum.min.js',
+        'src/plugins/js/spectrum.min.js',
         'src/plugins/js/jquery-ui.min.js',
-        // 'src/plugins/js/jquery.mousewheel.min.js',
+        'src/plugins/js/jquery.mousewheel.min.js',
         // 'src/plugins/js/numeral.min.js',
         'src/plugins/js/html2canvas.min.js',
         'src/plugins/js/localforage.min.js',
@@ -177,7 +169,7 @@ function reloadBrowser(done) {
 }
 
 //Package the core code
-async function core_rollup() {
+async function core() {
     const bundle = await rollup({
         input: 'src/index.js',
         plugins: [
@@ -199,7 +191,7 @@ async function core_rollup() {
         name: 'luckysheet',
         sourcemap: true,
         inlineDynamicImports:true,
-        banner: banner
+
     });
 
     if(production){
@@ -209,26 +201,9 @@ async function core_rollup() {
             name: 'luckysheet',
             sourcemap: true,
             inlineDynamicImports:true,
-            banner: banner
         });
     }
 
-}
-
-async function core() {
-
-    await require('esbuild').buildSync({
-        format: 'iife',
-        globalName: 'luckysheet',    
-        entryPoints: ['src/index.js'],
-        bundle: true,
-        minify: production,
-        banner: { js: banner },
-        target: ['es2015'],
-        sourcemap: true,
-        outfile: 'dist/luckysheet.umd.js',
-        logLevel: 'error',
-      })
 }
 
 // According to the build tag in html, package js and css

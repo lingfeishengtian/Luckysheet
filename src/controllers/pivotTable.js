@@ -36,7 +36,6 @@ import {checkProtectionAuthorityNormal} from './protection';
 import Store from '../store';
 import locale from '../locale/locale';
 import numeral from 'numeral';
-import { luckysheetlodingHTML } from '../controllers/constant';
 
 const pivotTable = {
     pivotDatas: null,
@@ -284,8 +283,8 @@ const pivotTable = {
         else if (byconditiontype == "1") {
             $("#luckysheet-pivotTableFilter-menu .luckysheet-pivotTableFilter-selected-input").eq(0).show().find("input").val($t.data("byconditionvalue1"));
         }
-        const loadingObj = luckysheetlodingHTML("#luckysheet-pivotTableFilter-byvalue-select",{text:locale_filter.filiterMoreDataTip});
-        $("#luckysheet-pivotTableFilter-byvalue-select").empty().append(loadingObj.el)
+
+        $("#luckysheet-pivotTableFilter-byvalue-select").empty().html('<div style="width:100%;text-align:center;position:relative;top:45%;font-size: 14px;"> <div class="luckysheetLoaderGif"> </div> <span>'+locale_filter.filiterMoreDataTip+'</span></div>');
         
         let rowhiddenother = {}; //其它筛选列的隐藏行
         $("#luckysheet-modal-dialog-pivotTable-list .luckysheet-modal-dialog-slider-list-item").not($t.get(0)).each(function () {
@@ -534,15 +533,7 @@ const pivotTable = {
                 }
             }
 
-            // 适配小屏设备
-            let containerH = winH - toffset.top - 350
-            if (containerH < 0) containerH = 100
-            //$("#luckysheet-pivotTableFilter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + containerH + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
-
-
-            $("#luckysheet-pivotTableFilter-byvalue-select").append("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + containerH + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
-            loadingObj.close()
-
+            $("#luckysheet-pivotTableFilter-byvalue-select").html("<div class='ListBox luckysheet-mousedown-cancel' style='max-height:" + (winH - toffset.top - 350) + "px;overflow-y:auto;overflow-x:hidden;'>" + item.join("") + "</div>");
         }, 1);
 
         showrightclickmenu($menu, toffset.left - 250, toffset.top);
@@ -2640,8 +2631,7 @@ const pivotTable = {
         }
 
         if (isdatatypemulti(d_value)["num"] === true) {
-            //fix issue 265
-            let num = numFormat(d_value,6);
+            let num = numFormat(d_value);
             dataposition[indicator]["digitaldata"].push(num);
             dataposition[indicator]["count"] += 1;
             dataposition[indicator]["sum"] += num;

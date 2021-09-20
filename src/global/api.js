@@ -21,7 +21,7 @@ import { isRealNull, valueIsError, isRealNum, isEditMode, hasPartMC } from "./va
 import { isdatetime, diff } from "./datecontroll";
 import { getBorderInfoCompute } from './border';
 import { luckysheetDrawMain } from './draw';
-import pivotTable from '../controllers/pivotTable';
+
 import server from "../controllers/server";
 import menuButton from '../controllers/menuButton';
 import selection from "../controllers/selection";
@@ -150,7 +150,7 @@ export function setCellValue(row, column, value, options = {}) {
         ht: 1,//Horizontal alignment,0 center, 1 left, 2 right
         mc: 1, //Merge Cells
         tr: 1, //Text rotation,0: 0、1: 45 、2: -45、3 Vertical text、4: 90 、5: -90
-        tb: 1, //Text wrap,0 truncation, 1 overflow, 2 word wrap
+        tb: 2, //Text wrap,0 truncation, 1 overflow, 2 word wrap
         //v: 1, //Original value
         //m: 1, //Display value
         rt:1, //text rotation angle 0-180 alignment
@@ -164,10 +164,10 @@ export function setCellValue(row, column, value, options = {}) {
     }
     else if(value instanceof Object){
         let curv = {};
-        if(isRealNull(data[row][column])){
-            data[row][column] = {};
-        }
         let cell = data[row][column];
+        if(isRealNull(cell)){
+            cell = {};
+        }
         if(value.f!=null && value.v==null){
             curv.f = value.f;
             if(value.ct!=null){
@@ -1082,62 +1082,7 @@ export function insertRowOrColumn(type, index = 0, options = {}) {
         success();
     }
 }
-/**
- * 在第index行或列的位置，插入number行或列
- * @param {String} type 插入行或列 row-行  column-列
- * @param {Number} index 在第几行插入空白行，从0开始
- * @param {Object} options 可选参数
- * @param {Number} options.number 插入的空白行数；默认为 1
- * @param {Number} options.order 工作表索引；默认值为当前工作表索引
- * @param {Function} options.success 操作结束的回调函数
- */
-export function insertRowBottomOrColumnRight(type, index = 0, options = {}) {
-    if(!isRealNum(index)){
-        return tooltip.info('The index parameter is invalid.', '');
-    }
 
-    let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let {
-        number = 1,
-        order = curSheetOrder,
-        success
-    } = {...options}
-
-    let _locale = locale();
-    let locale_info = _locale.info;
-    if (!isRealNum(number)) {
-        if(isEditMode()){
-            alert(locale_info.tipInputNumber);
-        } else{
-            tooltip.info(locale_info.tipInputNumber, "");
-        }
-        return;
-    }
-
-    number = parseInt(number);
-    if (number < 1 || number > 100) {
-        if(isEditMode()){
-            alert(locale_info.tipInputNumberLimit);
-        } else{
-            tooltip.info(locale_info.tipInputNumberLimit, "");
-        }
-        return;
-    }
-
-    // 默认在行上方增加行，列左侧增加列
-    let sheetIndex;
-    if(order){
-        if(Store.luckysheetfile[order]){
-            sheetIndex = Store.luckysheetfile[order].index;
-        }
-    }
-
-    luckysheetextendtable(type, index, number, "rightbottom", sheetIndex);
-
-    if (success && typeof success === 'function') {
-        success();
-    }
-}
 /**
  * 在第row行的位置，插入number行空白行
  * @param {Number} row 在第几行插入空白行，从0开始
@@ -1149,17 +1094,7 @@ export function insertRowBottomOrColumnRight(type, index = 0, options = {}) {
 export function insertRow(row = 0, options = {}) {
     insertRowOrColumn('row', row, options)
 }
-/**
- * 在第row行的位置，插入number行空白行
- * @param {Number} row 在第几行插入空白行，从0开始
- * @param {Object} options 可选参数
- * @param {Number} options.number 插入的空白行数；默认为 1
- * @param {Number} options.order 工作表索引；默认值为当前工作表索引
- * @param {Function} options.success 操作结束的回调函数
- */
-export function insertRowBottom(row = 0, options = {}) {
-    insertRowBottomOrColumnRight('row', row, options)
-}
+
 /**
  * 在第column列的位置，插入number列空白列
  * @param {Number} column 在第几列插入空白列，从0开始
@@ -1171,17 +1106,7 @@ export function insertRowBottom(row = 0, options = {}) {
 export function insertColumn(column = 0, options = {}) {
     insertRowOrColumn('column', column, options)
 }
-/**
- * 在第column列的位置，插入number列空白列
- * @param {Number} column 在第几列插入空白列，从0开始
- * @param {Object} options 可选参数
- * @param {Number} options.number 插入的空白列数；默认为 1
- * @param {Number} options.order 工作表索引；默认值为当前工作表索引
- * @param {Function} options.success 操作结束的回调函数
- */
-export function insertColumnRight(column = 0, options = {}) {
-    insertRowBottomOrColumnRight('column', column, options)
-}
+
 /**
  * 删除指定的行或列。删除行列之后，行列的序号并不会变化，下面的行（右侧的列）会补充到上（左）面，注意观察数据是否被正确删除即可。
  * @param {String} type 删除行或列 row-行  column-列
@@ -1257,7 +1182,6 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
         order = curSheetOrder,
-        saveParam = true,
         success
     } = {...options}
 
@@ -1285,10 +1209,7 @@ export function hideRowOrColumn(type, startIndex, endIndex, options = {}) {
     }
 
     Store.luckysheetfile[order].config = cfg;
-
-    if (saveParam) {
-        server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
-    }
+    server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
 
     // 若操作sheet为当前sheet页，行高、列宽 刷新
     if (order == curSheetOrder) {
@@ -1319,7 +1240,6 @@ export function showRowOrColumn(type, startIndex, endIndex, options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
     let {
         order = curSheetOrder,
-        saveParam = true,
         success
     } = {...options}
 
@@ -1349,9 +1269,7 @@ export function showRowOrColumn(type, startIndex, endIndex, options = {}) {
     //config
     Store.luckysheetfile[order].config = Store.config;
 
-    if (saveParam) {
-        server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
-    }
+    server.saveParam("cg", file.index, cfg[cfgKey], { "k": cfgKey });
 
     // 若操作sheet为当前sheet页，行高、列宽 刷新
     if (order === curSheetOrder) {
@@ -1414,7 +1332,7 @@ export function showColumn(startIndex, endIndex, options = {}) {
 
 
 /**
- * 设置指定行的高度。优先级最高，高于默认行高和用户自定义行高。
+ * 设置指定行的高度
  * @param {Object} rowInfo 行数和高度对应关系
  * @param {Object} options 可选参数
  * @param {Number} options.order 工作表索引；默认值为当前工作表索引
@@ -1445,12 +1363,8 @@ export function setRowHeight(rowInfo, options = {}) {
         if(parseInt(r) >= 0){
             let len = rowInfo[r];
 
-            if (len === 'auto') {
-                cfg['rowlen'][parseInt(r)] = len
-            } else {
-                if(Number(len) >= 0){
-                    cfg['rowlen'][parseInt(r)] = Number(len);
-                }
+            if(Number(len) >= 0){
+                cfg['rowlen'][parseInt(r)] = Number(len);
             }
         }
     }
@@ -1502,12 +1416,8 @@ export function setColumnWidth(columnInfo, options = {}) {
         if(parseInt(c) >= 0){
             let len = columnInfo[c];
 
-            if (len === 'auto') {
-                cfg['columnlen'][parseInt(c)] = len
-            } else {
-                if(Number(len) >= 0){
-                    cfg['columnlen'][parseInt(c)] = Number(len);
-                }
+            if(Number(len) >= 0){
+                cfg['columnlen'][parseInt(c)] = Number(len);
             }
         }
     }
@@ -1667,8 +1577,7 @@ export function getDefaultColWidth(options = {}) {
  * @returns {Array}
  */
 export function getRange() {
-    let rangeArr = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
-
+    let rangeArr = Store.luckysheet_select_save;
     let result = [];
 
     for (let i = 0; i < rangeArr.length; i++) {
@@ -1732,7 +1641,7 @@ export function getRangeValuesWithFlatte(range){
  */
 export function getRangeAxis() {
     let result = [];
-    let rangeArr = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
+    let rangeArr = Store.luckysheet_select_save;
     let sheetIndex = Store.currentSheetIndex;
 
     rangeArr.forEach(ele=>{
@@ -1782,7 +1691,6 @@ export function getRangeHtml(options = {}) {
         order = getSheetIndex(Store.currentSheetIndex),
         success
     } = {...options}
-    range = JSON.parse(JSON.stringify(range));
 
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
@@ -1940,8 +1848,8 @@ export function getRangeHtml(options = {}) {
     let cpdata = "";
     let colgroup = "";
 
-    rowIndexArr = rowIndexArr.sort((a, b) => a - b);
-    colIndexArr = colIndexArr.sort((a, b) => a - b);
+    rowIndexArr = rowIndexArr.sort();
+    colIndexArr = colIndexArr.sort();
 
     for (let i = 0; i < rowIndexArr.length; i++) {
         let r = rowIndexArr[i];
@@ -2487,7 +2395,7 @@ export function getRangeDiagonal(type, options = {}) {
     }
 
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
+    let curRange = Store.luckysheet_select_save;
     let {
         column = 1,
         range = curRange,
@@ -2590,7 +2498,7 @@ export function getRangeDiagonal(type, options = {}) {
  */
 export function getRangeBoolean(options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
+    let curRange = Store.luckysheet_select_save;
     let {
         range = curRange,
         order = curSheetOrder
@@ -2905,7 +2813,7 @@ export function setSingleRangeFormat(attr, value, options = {}) {
  */
 export function setRangeFormat(attr, value, options = {}) {
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex);
-    let curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
+    let curRange = Store.luckysheet_select_save;
     let {
         range = curRange,
         order = curSheetOrder,
@@ -2940,6 +2848,10 @@ export function setRangeFormat(attr, value, options = {}) {
 
     let file = Store.luckysheetfile[order];
 
+    if(file == null){
+        return tooltip.info("The order parameter is invalid.", "");
+    }
+    let sheetData = $.extend(true, [], file.data);
     let result = []
 
     for (let i = 0; i < range.length; i++) {
@@ -2963,6 +2875,7 @@ export function setRangeFormat(attr, value, options = {}) {
     luckysheetrefreshgrid();
 
     if (success && typeof success === 'function') {
+        success()
     }
 }
 
@@ -3053,7 +2966,7 @@ export function setRangeMerge(type, options = {}) {
     }
 
     let curSheetOrder = getSheetIndex(Store.currentSheetIndex),
-        curRange = JSON.parse(JSON.stringify(Store.luckysheet_select_save));
+        curRange = Store.luckysheet_select_save;
     let {
         range = curRange,
         order = curSheetOrder,
@@ -3115,8 +3028,6 @@ export function setRangeMerge(type, options = {}) {
         if(has_PartMC){
             return tooltip.info('Cannot perform this operation on partially merged cells', '');
         }
-    }else {
-        cfg.merge = {}
     }
 
     //选区是否含有 合并的单元格
@@ -3639,8 +3550,6 @@ export function setRangeConditionalFormatDefault(conditionName, conditionValue, 
         success
     } = {...options}
 
-    cellrange = JSON.parse(JSON.stringify(cellrange));
-
     let file = Store.luckysheetfile[order];
     let data = file.data;
 
@@ -3907,7 +3816,6 @@ export function setRangeConditionalFormat(type, options = {}) {
         success
     } = {...options}
 
-    cellrange = JSON.parse(JSON.stringify(cellrange));
     let file = Store.luckysheetfile[order];
 
     if(file == null){
@@ -4229,7 +4137,6 @@ export function clearRange(options = {}) {
         success
     } = {...options}
 
-    range = JSON.parse(JSON.stringify(range));
     if(getObjType(range) == 'string'){
         if(!formula.iscelldata(range)){
             return tooltip.info("The range parameter is invalid.", "");
@@ -6704,20 +6611,16 @@ export function getTxtByRange(range=Store.luckysheet_select_save){
  * @param {Number} config.total 总条数
  */
 export function pagerInit (config) {
-    const {prevPage, nextPage, total} = locale().button;
     $('#luckysheet-bottom-pager').remove()
-    $('#luckysheet-sheet-content').after('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
+    $('#luckysheet-sheet-area').append('<div id="luckysheet-bottom-pager" style="font-size: 14px; margin-left: 10px; display: inline-block;"></div>')
     $("#luckysheet-bottom-pager").sPage({
         page: config.pageIndex, //当前页码，必填
         total: config.total, //数据总条数，必填
         selectOption: config.selectOption, // 选择每页的行数，
         pageSize: config.pageSize, //每页显示多少条数据，默认10条
-        showTotal: config.showTotal, // 是否显示总数，默认关闭：false
-        showSkip: config.showSkip, //是否显示跳页，默认关闭：false
-        showPN: config.showPN, //是否显示上下翻页，默认开启：true
-        prevPage: config.prevPage || prevPage, //上翻页文字描述，默认"上一页"
-        nextPage: config.nextPage || nextPage, //下翻页文字描述，默认"下一页"
-        totalTxt: config.totalTxt || total + config.total, // 数据总条数文字描述，{total}为占位符，默认"总共：{total}"
+        showTotal: true, // 是否显示总数
+        showSkip: config.showSkip || true, //是否显示跳页，默认关闭：false
+        showPN: config.showPN || true, //是否显示上下翻页，默认开启：true
         backFun: function (page) {
             page.pageIndex = page.page
             if(!method.createHookFunction("onTogglePager", page)){ return; }
@@ -6737,53 +6640,6 @@ export function refreshFormula (success) {
           success();
       }
     })
-}
-
-/**
- * 更新sheet数据
- * @param {Array} data 工作簿配置，可以包含多个表
- * @param {Object} options 可选参数
- * @param {Function} options.success 操作结束的回调函数
- *
- */
-export function updataSheet (options = {}) {
-    let {data, success} = options
-    let files = Store.luckysheetfile
-    for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < files.length; j++) {
-            if (files[j].index === data[i].index) {
-                files[j] = data[i]
-            }
-        }
-    }
-    let file = files[sheetmanage.getSheetIndex(Store.currentSheetIndex)],
-        sheetData = sheetmanage.buildGridData(file);
-    file.data = sheetData
-
-    if (!!file.isPivotTable) {
-        Store.luckysheetcurrentisPivotTable = true;
-        if (!isPivotInitial) {
-            pivotTable.changePivotTable(index);
-        }
-    }
-    else{
-        Store.luckysheetcurrentisPivotTable = false;
-        $("#luckysheet-modal-dialog-slider-pivot").hide();
-        luckysheetsizeauto(false);
-    }
-    sheetmanage.mergeCalculation(file["index"]);
-    sheetmanage.setSheetParam();
-    setTimeout(function () {
-        sheetmanage.showSheet();
-        sheetmanage.restoreCache();
-        formula.execFunctionGroupForce(luckysheetConfigsetting.forceCalculation);
-        sheetmanage.restoreSheetAll(Store.currentSheetIndex);
-        luckysheetrefreshgrid();
-        if (success && typeof success === 'function') {
-            success();
-        }
-    }, 1);
-    server.saveParam("shs", null, Store.currentSheetIndex);
 }
 
 /**
@@ -6810,25 +6666,4 @@ export function refreshMenuButtonFocus(data ,r,c , success){
             success();
         }
     })
-}
-
-/**
- * 检查选区内所有cell指定类型的状态是否满足条件（主要是粗体、斜体、删除线和下划线等等）
- * @param {String}  type            类型
- * @param {String}  status          目标状态值
- */
-export function checkTheStatusOfTheSelectedCells(type,status){
-
-    /* 获取选区内所有的单元格-扁平后的处理 */
-    let cells = getRangeWithFlatten();
-
-    let flag = cells.every(({r,c})=>{
-        let cell = Store.flowdata[r][c];
-        if(cell == null){
-            return false;
-        }
-        return cell[type] == status;
-    })
-
-    return flag;
 }

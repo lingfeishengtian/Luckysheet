@@ -321,11 +321,7 @@ const luckysheetformula = {
             sheetmanage.changeSheetExec(_this.rangetosheet);
         }
     },
-    xssDeal: function(str) {
-        if (typeof str !== 'string') return str;
-        return str.replace(/<script>/g, '&lt;script&gt;').replace(/<\/script>/, '&lt;/script&gt;');
-    },
-    fucntionboxshow: function(r, c) {
+    fucntionboxshow: function (r, c) {
 
         if (!checkProtectionCellHidden(r, c, Store.currentSheetIndex)) {
             $("#luckysheet-functionbox-cell").html("");
@@ -350,7 +346,7 @@ const luckysheetformula = {
                 value = valueShowEs(r, c, d);
             }
         }
-        value = this.xssDeal(value);
+
         _this.oldvalue = value;
         $("#luckysheet-functionbox-cell").html(value);
     },
@@ -3335,11 +3331,11 @@ const luckysheetformula = {
             $editer = $input;
         let value1 = $editer.html(),
             value1txt = $editer.text();
-        let xssDeal = this.xssDeal
-        setTimeout(function() {
+
+        setTimeout(function () {
             let value = $editer.text(),
                 valuetxt = value;
-            value = xssDeal(value);
+
             if (value.length > 0 && value.substr(0, 1) == "=" && (kcode != 229 || value.length == 1)) {
                 value = _this.functionHTMLGenerate(value);
                 value1 = _this.functionHTMLGenerate(value1txt);

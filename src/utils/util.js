@@ -871,16 +871,6 @@ function arrayRemoveItem(array, item) {
     })
 }
 
-/**
- * camel 形式的单词转换为 - 形式 如 fillColor -> fill-color
- * @param {string} camel camel 形式
- * @returns
- */
- function camel2split(camel) {
-    return camel.replace(/([A-Z])/g, function(all, group) {
-        return '-' + group.toLowerCase();
-    });
-}
   
 export {
     isJsonString,
@@ -910,6 +900,5 @@ export {
     transformRangeToAbsolute,
     openSelfModel,
     createProxy,
-    arrayRemoveItem,
-    camel2split
+    arrayRemoveItem
 }

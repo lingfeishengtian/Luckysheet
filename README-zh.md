@@ -89,12 +89,12 @@
 通过CDN引入依赖
 
 ```
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/css/pluginsCss.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/plugins.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/css/luckysheet.css' />
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/assets/iconfont/iconfont.css' />
-<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/plugins/js/plugin.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/luckysheet@latest/dist/luckysheet.umd.js"></script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/css/pluginsCss.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/plugins.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/css/luckysheet.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/luckysheet/dist/assets/iconfont/iconfont.css' />
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/plugins/js/plugin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luckysheet/dist/luckysheet.umd.js"></script>
 ```
 ### 第二步
 指定一个表格容器
@@ -136,18 +136,21 @@ npm run build
 ## 合作项目
 
 - [鲁班h5](https://github.com/ly525/luban-h5)
+- [excelize](https://github.com/360EntSecGroup-Skylar/excelize)
 - [h5-Dooring](https://github.com/MrXujiang/h5-Dooring)
-- [Furion](https://gitee.com/monksoul/Furion)
 
 ## 交流
 
 - [Github 论坛](https://github.com/mengshukeji/Luckysheet/discussions)
-- 以下扫码加入官方微信群或者QQ群
+- 添加小编微信,拉你进Luckysheet开发者交流微信群,备注:加群
 
-| 官方微信群 |  群满则加小编微信，备注:加群  | QQ群 |
-|---|---|---|
-| <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_wechat_group.png" width="200" /> | <img src="https://minio.cnbabylon.com/public/luckysheet/dushusir_wechat.jpg" width="200" />| <img src="https://minio.cnbabylon.com/public/luckysheet/luckysheet_qq_group.jpg" width="200" /> |
+  <img src="/docs/.vuepress/public/img/%E5%BE%AE%E4%BF%A1%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
 
+或者
+
+- 加入Luckysheet开发者交流QQ群
+  
+  <img src="/docs/.vuepress/public/img/QQ%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" width = "200" alt="微信群" align="center" />
 
 [英文社群](./README.md)
 
@@ -161,7 +164,7 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 
 | PayPal |  微信  | 支付宝 |
 |---|---|---|
-| [Paypal Me](https://www.paypal.me/wbfsa) | <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="200" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="200" /> |
+| [Paypal Me](https://www.paypal.me/wbfsa) | <img src="https://minio.cnbabylon.com/public/luckysheet/wechat.jpg" width="140" />| <img src="https://minio.cnbabylon.com/public/luckysheet/alipay.jpg" width="130" /> |
 
 ### Patreon和OpenCollective有什么区别？
 
@@ -187,33 +190,6 @@ Luckysheet是MIT许可的开源项目，其持续稳定的开发离不开这些�
 - *特 ¥ 10
 - **权 ¥ 9.9
 - **sdmq ¥ 20
-- *旭 ¥ 10
-- Quentin ¥ 20
-- 周宇凡 ¥ 100
-- *超 ¥ 10
-- 维宁 ¥ 100
-- hyy ¥ 20
-- 雨亭寒江月 ¥ 50
-- **功 ¥ 10
-- **光 ¥ 20
-- terrywan ¥ 100
-- 王晓洪 ¥ 10
-- Sun ¥ 10
-- 忧绣 ¥ 100
-- Jasonx ¥ 10
-- 国勇 ¥ 66.6
-- 郎志 ¥ 100
-- 匿名 ¥ 1
-- ni ¥ 100
-- 苏 ¥ 50
-- Mads_chan ¥ 1
-- LK ¥ 100
-- 智连方舟 李汪石 ¥ 168
-- **发 ¥ 260
-- *超 ¥ 10
-- *勇 ¥ 10
-- *腾 ¥ 15
-- 名字好难起 ¥ 20
 
 ## 贡献者和感谢
 

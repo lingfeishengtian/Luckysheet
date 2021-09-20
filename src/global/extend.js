@@ -627,12 +627,9 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
 
         //空行模板
-        let row = [],
-            curRow = [...d][index]
+        let row = [];
         for(let c = 0; c < d[0].length; c++){
-            let cell = curRow[c],
-            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
-            row.push(templateCell);
+            row.push(null);
         }
 
         //边框
@@ -782,12 +779,9 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
         }
 
         //空列模板
-        let col = [],
-            curd= [...d];
+        let col = [];
         for(let r = 0; r < d.length; r++){
-            let cell = curd[r][index],
-            templateCell = cell ?  {...cell, v: '', m: ''} : Store.defaultCell;
-            col.push(templateCell);
+            col.push(null);
         }
 
         //边框
@@ -898,7 +892,6 @@ function luckysheetextendtable(type, index, value, direction, sheetIndex) {
             newDataVerification,
             newHyperlink
         );
-
     }
     else{
         file.data = d;
@@ -1030,6 +1023,9 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
         if(ed > d.length - 1){
             ed = d.length - 1;
         }
+
+        if(st == 0 || ed == 0)
+            return
     }
     else{
         if(st > d[0].length - 1){
@@ -1790,7 +1786,7 @@ function luckysheetdeletetable(type, st, ed, sheetIndex) {
             addcol.push(null);
         }
 
-        for (let r = 0; r < d.length; r++) {
+        for (let r = 1; r < d.length; r++) {
             let row = [].concat(d[r]);
             
             //删除选中列
