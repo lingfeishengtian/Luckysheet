@@ -3910,6 +3910,11 @@ export default function luckysheetHandler() {
                 col_e = Store.visibledatacolumn.length - 1;
             }
 
+            // Custom added
+            if(last["row"][0] == 0 || last["row"][1] == 0 || row_s == 0 || row_e == 0){
+                return
+            }
+
             //替换的位置包含部分单元格
             if (hasPartMC(cfg, row_s, row_e, col_s, col_e)) {
                 if (isEditMode()) {
@@ -4093,8 +4098,6 @@ export default function luckysheetHandler() {
 
         //选区下拉
         if (Store.luckysheet_cell_selected_extend) {
-
-            
             Store.luckysheet_cell_selected_extend = false;
             $("#luckysheet-cell-selected-extend").hide();
 
@@ -4129,7 +4132,7 @@ export default function luckysheetHandler() {
             let col_s = last["column"][0], col_e = last["column"][1];
 
             if (row_s < 0 || y < 0) {
-                row_s = 0;
+                row_s = 1;
                 row_e = last["row"][1] - last["row"][0];
             }
 
@@ -4271,12 +4274,15 @@ export default function luckysheetHandler() {
                 }
             }
 
-            last["row"] = [row_s, row_e];
-            last["column"] = [col_s, col_e];
 
-            luckysheetDropCell.update();
-            luckysheetDropCell.createIcon();
-
+            if(row_s == 0 || row_e == 0) {
+            }else{
+                last["row"] = [row_s, row_e];
+                last["column"] = [col_s, col_e];
+                luckysheetDropCell.update();
+                luckysheetDropCell.createIcon();
+            }
+            
             $("#luckysheet-cell-selected-move").hide();
 
             $("#luckysheet-sheettable").css("cursor", "default");
