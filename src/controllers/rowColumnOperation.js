@@ -385,7 +385,6 @@ export function rowColumnOperationInitial(){
             }
 
             $("#luckysheet-cols-rows-shift").hide();
-            Store.luckysheetRightHeadClickIs = "row";
             $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.row);
             $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.height);
             $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.top);

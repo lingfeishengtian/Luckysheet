@@ -1142,13 +1142,22 @@ export default function luckysheetHandler() {
             let obj_s = Store.luckysheet_select_save[0];
 
             const cellRightClickConfig = luckysheetConfigsetting.cellRightClickConfig;
+            Store.luckysheetRightHeadClickIs = "row";
+
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.row);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.width);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.left);
+            $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-right").text(locale().rightclick.right);
 
             $("#luckysheet-cols-rows-data").show();
-            $("#luckysheet-cols-rows-handleincell").show();
-            $("#luckysheet-cols-rows-add, #luckysheet-cols-rows-shift").hide();
+            //$("#luckysheet-cols-rows-handleincell").show();
+            $("#luckysheet-cols-rows-handleincell").hide();
+            //$("#luckysheet-cols-rows-add, #luckysheet-cols-rows-shift").hide();
+            $("#luckysheet-cols-rows-add, #luckysheet-cols-rows-shift").show();
 
             $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'block';
-            $$('#luckysheet-cols-rows-handleincell .luckysheet-menuseparator').style.display = 'block';
+            // $$('#luckysheet-cols-rows-handleincell .luckysheet-menuseparator').style.display = 'block';
+            $$('#luckysheet-cols-rows-add .luckysheet-menuseparator').style.display = 'block';
 
             if (obj_s["row"] != null && obj_s["row"][0] == 0 && obj_s["row"][1] == Store.flowdata.length - 1) {
 
@@ -1178,7 +1187,8 @@ export default function luckysheetHandler() {
                 $$('#luckysheet-del-selected').style.display = cellRightClickConfig.deleteColumn ? 'block' : 'none';
                 $$('#luckysheet-hide-selected').style.display = cellRightClickConfig.hideColumn ? 'block' : 'none';
                 $$('#luckysheet-show-selected').style.display = cellRightClickConfig.hideColumn ? 'block' : 'none';
-                $$('#luckysheet-column-row-width-selected').style.display = cellRightClickConfig.columnWidth ? 'block' : 'none';
+                //$$('#luckysheet-column-row-width-selected').style.display = cellRightClickConfig.columnWidth ? 'block' : 'none';
+                $$('#luckysheet-column-row-width-selected').style.display = 'block'
 
                 // 1. 当一个功能菜单块上方的功能块按钮都隐藏的时候，下方的功能块的顶部分割线也需要隐藏
                 if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste){
@@ -1299,10 +1309,13 @@ export default function luckysheetHandler() {
                     $("#luckysheet-cols-rows-add").find("input[type='number'].rcsize").val("");
                 }
             }else{
+
                 // 如果全部按钮都隐藏，则整个菜单容器也要隐藏
                 if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste && !cellRightClickConfig.insertRow && !cellRightClickConfig.insertColumn && !cellRightClickConfig.deleteRow && !cellRightClickConfig.deleteColumn && !cellRightClickConfig.deleteCell && !cellRightClickConfig.clear && !cellRightClickConfig.matrix && !cellRightClickConfig.sort && !cellRightClickConfig.filter && !cellRightClickConfig.chart && !cellRightClickConfig.image && !cellRightClickConfig.link && !cellRightClickConfig.data && !cellRightClickConfig.cellFormat){
                     return;
                 }
+
+                Store.luckysheetRightHeadClickIs = "row"
 
                 // 当一个功能菜单块上方的功能块按钮都隐藏的时候，下方的功能块的顶部分割线也需要隐藏
                 if(!cellRightClickConfig.copy && !cellRightClickConfig.copyAs && !cellRightClickConfig.paste){
@@ -1323,7 +1336,7 @@ export default function luckysheetHandler() {
             if(!cellRightClickConfig.clear && !cellRightClickConfig.matrix && !cellRightClickConfig.sort && !cellRightClickConfig.filter && !cellRightClickConfig.chart && !cellRightClickConfig.image && !cellRightClickConfig.link && !cellRightClickConfig.data && !cellRightClickConfig.cellFormat){
                     $$('#luckysheet-cols-rows-data .luckysheet-menuseparator').style.display = 'none';
             }
-            
+
             showrightclickmenu($("#luckysheet-rightclick-menu"), x, y);
         }
 

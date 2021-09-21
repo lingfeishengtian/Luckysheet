@@ -150,7 +150,6 @@ const Store = {
 
     // Resources that currently need to be loaded asynchronously, especially plugins. 'Core' marks the core rendering process.
     asyncLoad:['core'],
-
 }
 
 export default Store;

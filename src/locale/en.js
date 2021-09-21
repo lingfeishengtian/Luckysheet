@@ -9191,8 +9191,8 @@ export default {
     fontFamily:{
         MicrosoftYaHei:"YaHei",
     },
-    fontarray: ["Times New Roman","Arial","Tahoma","Verdana"],
-    fontjson: {"times new roman":0,"arial":1,"tahoma":2,"verdana":3},
+    fontarray: ["Carlito","Arial","Tahoma","Verdana"],
+    fontjson: {"carlito":0,"arial":1,"tahoma":2,"verdana":3},
     border:{
         borderTop:'borderTop',
         borderBottom:'borderBottom',
