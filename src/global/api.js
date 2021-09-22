@@ -1363,8 +1363,12 @@ export function setRowHeight(rowInfo, options = {}) {
         if(parseInt(r) >= 0){
             let len = rowInfo[r];
 
-            if(Number(len) >= 0){
-                cfg['rowlen'][parseInt(r)] = Number(len);
+            if (len === 'auto') {
+                cfg['rowlen'][parseInt(r)] = len
+            } else {
+                if(Number(len) >= 0){
+                    cfg['rowlen'][parseInt(r)] = Number(len);
+                }
             }
         }
     }
@@ -1468,6 +1472,7 @@ export function getRowHeight(rowInfo, options = {}) {
     rowInfo.forEach((item) => {
         if(parseInt(item) >= 0){
             let size = rowlen[parseInt(item)] || Store.defaultrowlen;
+            console.log(size)
             rowlenObj[parseInt(item)] = size;
         }
     })

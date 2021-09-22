@@ -1144,6 +1144,10 @@ export default function luckysheetHandler() {
             const cellRightClickConfig = luckysheetConfigsetting.cellRightClickConfig;
             Store.luckysheetRightHeadClickIs = "row";
 
+            console.log(obj_s["row"])
+            if(obj_s["row"].includes(0))
+                return
+
             $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-word").text(locale().rightclick.row);
             $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-size").text(locale().rightclick.height);
             $("#luckysheet-rightclick-menu .luckysheet-cols-rows-shift-left").text(locale().rightclick.top);
